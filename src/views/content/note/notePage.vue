@@ -5,7 +5,7 @@
 				label-width="0" class="form">
 				<div class="img">
 					<el-form-item prop="coverImage">
-						<el-upload class="avatar-uploader" :action="BASE_URL+'file/uploadFile'"
+						<el-upload class="avatar-uploader" :action="UPLOAD_URL+'file/uploadFile'"
 							:show-file-list="false" :on-success="handleAvatarSuccess"
 							:before-upload="beforeAvatarUpload" name="files" :data="{owerId:userId}">
 							<img v-if="postForm.coverImage" :src="_url(postForm.coverImage)"
@@ -57,7 +57,7 @@ import { mapActions, mapGetters, mapState } from 'vuex'
 import { aMixin } from '@/mixin'
 import { notEmpty, deepClone } from '@/utils'
 import * as type from '@/store/mutation_types'
-import { POST_STATE } from '@/utils/global'
+import { POST_STATE, UPLOAD_URL } from '@/utils/global'
 import { insertOne, API, editOne } from '@/api'
 export default {
 	props: ['id'],
@@ -74,7 +74,8 @@ export default {
 				type: [{ required: true, message: '请选择笔记状态', trigger: 'blur' }],
 				title: [{ required: true, message: '请输入文章状态', trigger: 'blur' }]
 			},
-			POST_STATE
+			POST_STATE,
+			UPLOAD_URL
 		}
 	},
 	mixins: [aMixin],

@@ -28,7 +28,6 @@
 				<el-button type="info" @click="toggleBtn" class="login-btn">注册</el-button>
 				<el-button :loading="loading" type="success" class="login-btn"
 					@click.native.prevent="handleLogin('loginForm')">登录</el-button>
-
 			</div>
 
 		</el-form>

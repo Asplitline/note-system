@@ -7,7 +7,7 @@
 			</div>
 			<div class="info" v-if="notEmpty(currentPost) && notEmpty(currentUser) ">
 				<h3 class="title">{{currentPost.title}}</h3>
-				<p class="author">讲师：{{currentUser.userName}}</p>
+				<p class="author">作者：{{currentUser.userName}}</p>
 				<p class="price"><i class="fa fa-jpy"></i>{{currentPost.price | toX}}</p>
 				<div class="btns">
 					<button class="btn" @click="pay">立即购买</button>

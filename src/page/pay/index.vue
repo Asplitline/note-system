@@ -13,7 +13,7 @@
 							<p class="title" @click="gotoDetail(i)">{{i.title}}</p>
 							<div class="info">
 								<span class="date">日期：{{i.createTime | formatDate}}</span>
-								<span class="author">导师：{{findUserById(i.userId)}}</span>
+								<span class="author">作者：{{findUserById(i.userId)}}</span>
 							</div>
 							<div class="pay-price">
 								<span><em class="fa fa-jpy"></em>{{i.price | toX}}</span>

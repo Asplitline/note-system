@@ -52,6 +52,11 @@ export default {
 			]
 		}
 		option && myChart.setOption(option)
+		setTimeout(function () {
+			window.onresize = function () {
+				myChart.resize()
+			}
+		}, 500)
 	}
 }
 </script>

@@ -5,7 +5,7 @@
 				<div class="img-box mask">
 					<img :src="file_url(user.fileUrl)" alt=""
 						onerror="this.src='http://www.bianbiangou.cn/index/ICON2.png'">
-					<el-upload class="icon" :action="BASE_URL+'file/uploadFile'"
+					<el-upload class="icon" :action="UPLOAD_URL+'file/uploadFile'"
 						:show-file-list="false" :on-success="handleAvatarSuccess"
 						:before-upload="beforeAvatarUpload" name="files" :data="{owerId:user.userId}">
 						<i class="fa fa-camera-retro"></i>
@@ -54,7 +54,7 @@ import myPay from './myPay'
 import myFollow from './myFollow'
 import { mapActions, mapGetters, mapMutations } from 'vuex'
 import { deepClone, file_url, handleMsg } from '@/utils'
-import { BASE_URL } from '@/utils/global'
+import { BASE_URL, UPLOAD_URL } from '@/utils/global'
 import { API, editUser } from '@/api'
 import * as types from '@/store/mutation_types'
 export default {
@@ -71,7 +71,8 @@ export default {
 		return {
 			activeTab: 'myInfo',
 			BASE_URL,
-			user: {}
+			user: {},
+			UPLOAD_URL
 		}
 	},
 	computed: {

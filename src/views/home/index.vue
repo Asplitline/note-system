@@ -60,7 +60,8 @@
 			<el-col :span="12">
 				<div class="echarts-item">
 					<h3>标签统计</h3>
-					<tagChart v-if="notEmpty(tags)" :data='tags'></tagChart>
+					<!-- <tagChart v-if="notEmpty(tags)" :data="tags"></tagChart> -->
+					<tagChart v-if="notEmpty(tags)" :data="tags"></tagChart>
 					<myEmpty bg="transparent" v-else></myEmpty>
 				</div>
 			</el-col>

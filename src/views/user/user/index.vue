@@ -69,7 +69,7 @@
 				<el-form-item label="用户头像" prop="file_url" v-if="isEdit">
 					<!-- <el-input v-model="userForm.file_url" autocomplete="off"></el-input> -->
 
-					<el-upload class="avatar-uploader" :action="BASE_URL+'file/uploadFile'"
+					<el-upload class="avatar-uploader" :action="UPLOAD_URL+'file/uploadFile'"
 						:show-file-list="false" :on-success="handleAvatarSuccess"
 						:before-upload="beforeAvatarUpload" name="files" :data="{owerId:userForm.id}">
 						<img v-if="userForm.fileUrl" :src="_url(userForm.fileUrl)" class="avatar">
@@ -122,6 +122,7 @@ import {
 	changePassword,
 	editUser
 } from '@/api'
+import { UPLOAD_URL } from '@/utils/global'
 import { hashID, deepClone, validateEmail, validatePhone } from '@/utils'
 import { aMixin } from '@/mixin'
 
@@ -157,6 +158,7 @@ export default {
 			listLoading: false,
 			dialogFormVisible: false,
 			userForm: {},
+			UPLOAD_URL,
 			rules: {
 				userName: [{ required: true, message: '请输入账号', trigger: 'blur' }],
 				email: [{ validator: validEmail, trigger: 'blur' }],

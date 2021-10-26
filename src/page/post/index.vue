@@ -13,7 +13,7 @@
 			<el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="80px"
 				class="post-form">
 				<el-form-item prop="coverImage" label-width="0" class="cover-item">
-					<el-upload class="post-cover" :action="BASE_URL+'file/uploadFile'"
+					<el-upload class="post-cover" :action="UPLOAD_URL+'file/uploadFile'"
 						:show-file-list="false" :on-success="handleAvatarSuccess"
 						:before-upload="beforeAvatarUpload" name="files" :data="{owerId:userId}">
 						<img v-if="ruleForm.coverImage" :src="_url(ruleForm.coverImage)"
@@ -63,7 +63,7 @@
 import wangEditor from 'wangeditor'
 import { notEmpty, handleMsg } from '@/utils'
 import { aMixin } from '@/mixin'
-import { POST_STATE } from '@/utils/global'
+import { POST_STATE, UPLOAD_URL } from '@/utils/global'
 import { mapActions, mapGetters } from 'vuex'
 import * as type from '@/store/mutation_types'
 import { API, insertOne } from '@/api'
@@ -84,6 +84,7 @@ export default {
 				price: [{ required: true, message: '请输入笔记价格', trigger: 'blur' }]
 			},
 			POST_STATE,
+			UPLOAD_URL,
 			tagArr: []
 		}
 	},
