@@ -74,7 +74,7 @@ export const constantRoutes = [
         path: 'note',
         name: 'Note',
         component: () => import('@/views/content/note'),
-        meta: { title: '笔记列表', icon: 'dashboard', actvieMenu: '/content/note' }
+        meta: { title: '文章列表', icon: 'dashboard', actvieMenu: '/content/note' }
       },
       {
         hidden: true,
@@ -178,7 +178,7 @@ export const constantRoutes = [
         name: 'pPay',
         component: () => import('@/page/pay'),
         show: true,
-        meta: { title: '付费专区', icon: 'fa-paypal', actvieMenu: '/page/pay', page: true }
+        meta: { title: '付费', icon: 'fa-paypal', actvieMenu: '/page/pay', page: true }
       },
       {
         path: 'pay/:id',

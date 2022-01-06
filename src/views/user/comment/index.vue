@@ -4,7 +4,7 @@
 			@clear="getList" />
 		<el-table v-loading="listLoading" :data="list" element-loading-text="Loading" border
 			style="width: 100%" fit highlight-current-row>
-			<el-table-column align="center" label="笔记标题" min-width="95">
+			<el-table-column align="center" label="文章标题" min-width="95">
 				<template v-slot={row}>
 					<div class="t-ellipsis" v-if="notEmpty(row.note)">{{row.note.title}}</div>
 				</template>

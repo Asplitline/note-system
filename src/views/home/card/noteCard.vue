@@ -4,8 +4,8 @@
 			<li class="note-item"></li>
 		</ul> -->
 		<el-row class="note-header">
-			<el-col :span="14">笔记标题</el-col>
-			<!-- <el-col :span="4">笔记分类</el-col> -->
+			<el-col :span="14">文章标题</el-col>
+			<!-- <el-col :span="4">文章分类</el-col> -->
 			<el-col :span="4">浏览数</el-col>
 			<el-col :span="6">发布时间</el-col>
 		</el-row>

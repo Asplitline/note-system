@@ -7,7 +7,7 @@
 				<div class="panel-card__item">
 					<div class="panel-card__item--left">
 						<span class="number">{{info.noteTotal}}</span>
-						<span class="title">博客总数</span>
+						<span class="title">文章总数</span>
 					</div>
 					<div class="panel-card__item--right">
 						<i class="fa fa-cube" aria-hidden="true"></i>
@@ -70,7 +70,7 @@
 		<el-row class="info-group" :gutter="30">
 			<el-col :span="12">
 				<div class="info-item">
-					<h3>最新笔记</h3>
+					<h3>最新文章</h3>
 					<noteCard></noteCard>
 				</div>
 			</el-col>

@@ -40,7 +40,7 @@
 				</li>
 			</ul>
 		</myCard>
-		<myCard title="近期笔记" icon="fa-book">
+		<myCard title="近期文章" icon="fa-book">
 			<ul class="note-list">
 				<li class="note-item" v-for="i in noteList" :key="i.id" @click="gotoArticle(i)"><i
 						class="fa fa-book"></i>{{i.title}}

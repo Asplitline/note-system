@@ -1,7 +1,7 @@
 <template>
 	<div class="pay">
 		<div class="w pay-box">
-			<h3>付费专区</h3>
+			<h3>付费</h3>
 			<ul class="pay-list">
 				<li class="pay-item" v-for="i in list" :key="i.id">
 					<div class="pay-item-box">

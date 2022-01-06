@@ -1,6 +1,6 @@
 <template>
 	<div class="my-note">
-		<Card title="我的笔记">
+		<Card title="我的文章">
 			<ul class="note-tabs">
 				<li class="note-tabs-item" :class="{active:i.type === active}"
 					v-for="i in POST_STATE" :key="i.type" @click="setActive(i)">{{i.text}}</li>

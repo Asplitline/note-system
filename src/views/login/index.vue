@@ -135,6 +135,7 @@ export default {
 		// ...mapMutations('user', ['SET_CRTUSER']),
 		...mapActions(['user/login']),
 		toggleBtn() {
+			debugger
 			this.toggle
 				? this.$refs.loginForm.resetFields()
 				: this.$refs.registerForm.resetFields()

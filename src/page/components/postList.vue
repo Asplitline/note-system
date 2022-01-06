@@ -21,12 +21,12 @@
 					</div>
 				</div>
 				<div class="btns">
-					<button class="btn" @click="handleClick(i)">查看笔记</button>
+					<button class="btn" @click="handleClick(i)">查看文章</button>
 				</div>
 			</div>
 		</template>
 		<template v-else>
-			<myEmpty desc="暂无笔记" />
+			<myEmpty desc="暂无文章" />
 		</template>
 	</div>
 

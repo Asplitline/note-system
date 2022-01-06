@@ -1,6 +1,6 @@
 <template>
 	<div class="my-note">
-		<Card title="收藏笔记">
+		<Card title="收藏文章">
 			<template v-if="notEmpty(list)">
 
 				<div class="box" v-for="i in list" :key="i.id">

@@ -32,7 +32,7 @@
 						</el-radio-group>
 					</el-form-item>
 					<el-form-item prop="title">
-						<el-input v-model="postForm.title" placeholder="请输入笔记标题"></el-input>
+						<el-input v-model="postForm.title" placeholder="请输入文章标题"></el-input>
 					</el-form-item>
 				</div>
 			</el-form>
@@ -68,10 +68,10 @@ export default {
 			postForm: {},
 			postRules: {
 				coverImage: [
-					{ required: true, message: '请选择笔记封面', trigger: 'blur' }
+					{ required: true, message: '请选择文章封面', trigger: 'blur' }
 				],
 				lx: [{ required: true, message: '请选择文章类型', trigger: 'blur' }],
-				type: [{ required: true, message: '请选择笔记状态', trigger: 'blur' }],
+				type: [{ required: true, message: '请选择文章状态', trigger: 'blur' }],
 				title: [{ required: true, message: '请输入文章状态', trigger: 'blur' }]
 			},
 			POST_STATE,

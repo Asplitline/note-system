@@ -38,7 +38,7 @@
 						</el-option>
 					</el-select>
 				</el-form-item>
-				<el-form-item label="笔记类型" prop="type">
+				<el-form-item label="文章类型" prop="type">
 					<el-radio-group v-model="ruleForm.type">
 						<el-radio :label="i.type" v-for="i in POST_STATE" :key="i.type">{{i.text}}
 						</el-radio>
@@ -76,12 +76,12 @@ export default {
 			ruleForm: {},
 			rules: {
 				coverImage: [
-					{ required: true, message: '请选择笔记封面', trigger: 'blur' }
+					{ required: true, message: '请选择文章封面', trigger: 'blur' }
 				],
-				lx: [{ required: true, message: '请选择笔记类型', trigger: 'blur' }],
-				tag: [{ required: true, message: '请选择笔记标签', trigger: 'blur' }],
-				type: [{ required: true, message: '请选择笔记类型', trigger: 'blur' }],
-				price: [{ required: true, message: '请输入笔记价格', trigger: 'blur' }]
+				lx: [{ required: true, message: '请选择文章类型', trigger: 'blur' }],
+				tag: [{ required: true, message: '请选择文章标签', trigger: 'blur' }],
+				type: [{ required: true, message: '请选择文章类型', trigger: 'blur' }],
+				price: [{ required: true, message: '请输入文章价格', trigger: 'blur' }]
 			},
 			POST_STATE,
 			UPLOAD_URL,

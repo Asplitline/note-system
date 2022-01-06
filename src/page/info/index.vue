@@ -27,13 +27,13 @@
 				<el-tab-pane label="账号设置" :lazy="true" name="setting" key="setting">
 					<setting :user="user"></setting>
 				</el-tab-pane>
-				<el-tab-pane label="我的笔记" :lazy="true" name="myNote" key="myNote">
+				<el-tab-pane label="我的文章" :lazy="true" name="myNote" key="myNote">
 					<myNote :id="user.id"></myNote>
 				</el-tab-pane>
 				<el-tab-pane label="我的购买" :lazy="true" name="myPay" key="myPay">
 					<myPay :id="user.id"></myPay>
 				</el-tab-pane>
-				<el-tab-pane label="收藏笔记" :lazy="true" name="starNote" key="starNote">
+				<el-tab-pane label="收藏文章" :lazy="true" name="starNote" key="starNote">
 					<starNote :user="user" :userlist="userlist"></starNote>
 				</el-tab-pane>
 				<el-tab-pane label="我的关注" :lazy="true" name="myFollow" key="myFollow">

@@ -76,7 +76,7 @@
 							</li>
 						</ul>
 					</myCard>
-					<myCard :shadow="false" title="相关笔记" class="related" icon="fa-bookmark-o"
+					<myCard :shadow="false" title="相关文章" class="related" icon="fa-bookmark-o"
 						v-if="false">
 						<ul class="related-list">
 							<li class="related-item" v-for="i in 4">
