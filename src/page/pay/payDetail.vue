@@ -10,7 +10,8 @@
 				<p class="author">作者：{{currentUser.userName}}</p>
 				<p class="price"><i class="fa fa-jpy"></i>{{currentPost.price | toX}}</p>
 				<div class="btns">
-					<button class="btn" @click="pay">立即购买</button>
+					<button class="btn" @click="pay" v-if="!isPurchase">立即购买</button>
+					<button class="btn detail" @click="goto" v-else>查看详情</button>
 				</div>
 			</div>
 		</div>
@@ -19,7 +20,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters, mapActions, mapMutations } from 'vuex'
 import { file_url, hashID, notEmpty } from '@/utils'
 import * as type from '@/store/mutation_types'
 import { alipay, insertOne, API } from '@/api'
@@ -29,18 +30,33 @@ export default {
 		return {}
 	},
 	computed: {
-		...mapGetters(['currentPost', 'userlist', 'userId']),
+		...mapGetters({
+			currentPost: 'currentPost',
+			userlist: 'userlist',
+			userId: 'userId',
+			filterRecord: 'post/' + type.FILTER_RECORD
+		}),
 		currentUser() {
 			return this.userlist.find((i) => i.id === this.currentPost.userId)
+		},
+		isPurchase() {
+			return this.filterRecord(this.id, this.userId, 2).flag
 		}
 	},
 	mounted() {
 		this[type.FETCH_USER]()
+		this[type.FETCH_RECORD]()
 	},
 	methods: {
 		file_url,
 		notEmpty,
-		...mapActions('user', [type.FETCH_USER]),
+		...mapActions({
+			[type.FETCH_USER]: 'user/' + type.FETCH_USER,
+			[type.FETCH_RECORD]: 'post/' + type.FETCH_RECORD
+		}),
+		...mapMutations({
+			[type.SET_CURRENT_POST]: 'post/' + type.SET_CURRENT_POST
+		}),
 		async pay() {
 			const html = await alipay({
 				out_trade_no: hashID(32),
@@ -64,6 +80,10 @@ export default {
 				type: 2,
 				userId: this.userId
 			})
+		},
+		goto() {
+			this[type.SET_CURRENT_POST](this.currentPost)
+			this.$router.push({ name: 'pArticle', params: { id: this.id } })
 		}
 	}
 }
@@ -119,6 +139,9 @@ export default {
 					vertical-align: middle;
 					display: inline-block;
 					cursor: pointer;
+					&.detail {
+						background-color: $main-blue;
+					}
 					&:hover {
 						opacity: 0.7;
 					}

@@ -4,6 +4,7 @@ import { setVals, getVals } from '@/utils';
 const state = {
   types: [],
   tags: [],
+  records: [],
   currentPost: getVals('crt_post') || {},
 }
 
@@ -18,12 +19,19 @@ const mutations = {
   [type.SET_TAGS] (state, val) {
     state.tags = val
   },
+  [type.SET_RECORDS] (state, val) {
+    state.records = val
+  },
 
 }
 
 const getters = {
   [type.GET_TYPE]: (state) => (id) => {
     return state.types.find(i => i.id === id)
+  },
+  [type.FILTER_RECORD]: (state) => (aId, bId, type) => {
+    const res = state.records.filter(i => i.memberId === aId)?.filter(i => i.userId === bId)?.filter(i => i.type === type)
+    return { flag: res.length > 0, res }
   }
 }
 const actions = {
@@ -44,6 +52,18 @@ const actions = {
       getAllList(API.TAG).then(res => {
         const { data, success, message } = res
         success && commit(type.SET_TAGS, data)
+        resolve()
+      }).catch(err => {
+        console.log('err :>> ', err);
+        reject(err)
+      })
+    })
+  },
+  [type.FETCH_RECORD] ({ commit }) {
+    return new Promise((resolve, reject) => {
+      getAllList(API.FOCUSON).then(res => {
+        const { data, success } = res
+        success && commit(type.SET_RECORDS, data)
         resolve()
       }).catch(err => {
         console.log('err :>> ', err);

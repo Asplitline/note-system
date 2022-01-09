@@ -13,3 +13,8 @@ export const FETCH_USER = 'FETCH_USER'
 export const SET_USER = 'SET_USER'
 export const GET_USER = 'GET_USER'
 export const SET_CRTUSER = 'SET_CRTUSER'
+
+export const ALL_POST = 'ALL_POST'
+export const SET_RECORDS = 'SET_RECORDS'
+export const FILTER_RECORD = 'FILTER_RECORD'
+export const FETCH_RECORD = 'FETCH_RECORD'

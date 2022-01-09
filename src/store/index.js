@@ -12,7 +12,7 @@ const store = new Vuex.Store({
     app,
     settings,
     user,
-    post
+    post,
   },
   getters
 })

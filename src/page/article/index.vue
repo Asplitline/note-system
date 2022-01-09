@@ -192,7 +192,8 @@ export default {
 	methods: {
 		...mapActions({
 			[type.FETCH_USER]: `user/${type.FETCH_USER}`,
-			[type.FETCH_TYPE]: `post/${type.FETCH_TYPE}`
+			[type.FETCH_TYPE]: `post/${type.FETCH_TYPE}`,
+			[type.FETCH_RECORD]: `post/${type.FETCH_RECORD}`
 		}),
 		...mapMutations('post', [type.SET_CURRENT_POST]),
 		notEmpty,
@@ -416,10 +417,14 @@ export default {
 		randNotes() {
 			const notes = this.notes.filter((i) => i.id !== this.id)
 			return notes.slice(0, 8).sort(() => 0.5 - Math.random())
-		}
+		},
+		// isPermission() {
+		// 	return
+		// }
 	},
 
 	async mounted() {
+		await this[[type.FETCH_RECORD]]()
 		window.addEventListener('scroll', this.handleScroll)
 		this.genarateTOC()
 		await this[type.FETCH_USER]()
@@ -429,6 +434,9 @@ export default {
 		this.fetchStarNoteList()
 		this.fetchStarUserList()
 		this.fetchNotes()
+	},
+	destroyed() {
+		window.removeEventListener('scroll', this.handleScroll)
 	}
 }
 </script>
@@ -436,6 +444,9 @@ export default {
 <style lang="scss" scoped>
 .aritcle {
 	@include base_layout;
+	.w {
+		display: flex;
+	}
 	.detail {
 		padding: 0 !important;
 		.main {

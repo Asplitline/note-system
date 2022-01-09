@@ -106,6 +106,9 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+.asider {
+	height: 100%;
+}
 .my-card {
 	margin-bottom: 1rem;
 	.about {
