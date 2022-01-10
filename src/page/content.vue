@@ -1,6 +1,6 @@
 <template>
 	<div class="content">
-		<Router-view />
+		<Router-view :key="$route.path" />
 	</div>
 </template>
 

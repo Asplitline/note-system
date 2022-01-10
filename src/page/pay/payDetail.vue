@@ -40,7 +40,10 @@ export default {
 			return this.userlist.find((i) => i.id === this.currentPost.userId)
 		},
 		isPurchase() {
-			return this.filterRecord(this.id, this.userId, 2).flag
+			return (
+				this.filterRecord(this.id, this.userId, 2).flag ||
+				this.currentPost.userId === this.userId
+			)
 		}
 	},
 	mounted() {

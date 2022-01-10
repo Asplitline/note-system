@@ -256,3 +256,9 @@ export function copy (text) {
     document.body.removeChild(ipt)
   }
 }
+
+// 
+export function anchor (el) {
+  const element = document.getElementById(el.id)
+  element.scrollIntoView({ behavior: 'smooth' })
+}

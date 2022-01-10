@@ -49,7 +49,7 @@ export default {
 		return {
 			list: [],
 			POST_STATE,
-			active: 0
+			active: 1
 		}
 	},
 	mounted() {

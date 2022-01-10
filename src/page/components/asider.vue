@@ -20,7 +20,7 @@
 		<myCard title="目录" icon="fa-book" class="toc-card" v-if="notEmpty(toc)">
 			<ul class="toc">
 				<li class="toc-item" v-for="i in toc" :key="i.id"><a href="javascript:;"
-						class="link" @click="achor(i)">{{i.text}}</a></li>
+						class="link" @click="anchor(i)">{{i.text}}</a></li>
 			</ul>
 		</myCard>
 		<myCard title="标签云" icon="fa-tag">
@@ -78,7 +78,7 @@ export default {
 		...mapMutations('post', [type.SET_CURRENT_POST]),
 		notEmpty,
 		file_url,
-		achor(el) {
+		anchor(el) {
 			const element = document.getElementById(el.id)
 			element.scrollIntoView({ behavior: 'smooth' })
 		},

@@ -1,12 +1,24 @@
 <template>
 	<div class="aritcle">
 		<el-row :gutter="60" class="w">
+			<div class="tools">
+				<a href="javascript:;" class="fa fa-angle-double-up"
+					@click="anchor({id:'article-title'})"></a>
+				<a v-if="isPermission" href="javascript:;" class="fa fa-thumbs-o-up"
+					:class="{like:isLike}" @click="likeArticle"></a>
+				<a v-if="isPermission" href="javascript:;" class="fa fa-heart"
+					:class="{star:isStar}" @click="starArticle"></a>
+				<a href="javascript:;" class="fa fa-share-alt" @click="share"></a>
+				<a href="javascript:;" class="fa fa-comments-o"
+					@click="anchor({id:'all-comment'})"></a>
+			</div>
 			<el-col :span="18" class="detail">
 				<div class="main">
+
 					<div class="content">
-						<h1 class="title">{{currentPost.title}}</h1>
+						<h1 class="title" id="article-title">{{currentPost.title}}</h1>
 						<div class="top-info">
-							<div class="img-box">
+							<div class="img-box" v-if="notEmpty(currentAuthor)">
 								<img :src="file_url(currentAuthor.fileUrl)" alt=""
 									v-if="notEmpty(currentAuthor)"
 									onerror="this.src='http://www.bianbiangou.cn/index/ICON2.png'">
@@ -33,14 +45,15 @@
 							</div>
 
 						</div>
-						<div v-html="currentPost.htmlContent" class="html" v-hljs ref="html"></div>
+						<div v-html="currentPost.htmlContent" class="html" v-hljs ref="html"
+							v-if="isPermission"></div>
+						<div class="article-lock" v-else>
+							<i class="fa fa-lock"></i>
+							<div>付费后才能观看</div>
+							<a href="javascript:;" @click="goto">前往付费</a>
+						</div>
 					</div>
 					<el-divider>本文完</el-divider>
-					<div class="tools">
-						<i class="fa fa-thumbs-o-up" :class="{like:isLike}" @click="likeArticle"></i>
-						<i class="fa fa-heart" :class="{star:isStar}" @click="starArticle"></i>
-						<i class="fa fa-share-alt" @click="share"></i>
-					</div>
 					<div class="note">
 						<p v-if="notEmpty(currentType)">所属分类：<span class="category"
 								@click="gotoList(currentType.id)">{{currentType.name}}</span></p>
@@ -87,7 +100,7 @@
 					<myCard :shadow="false" title="评论" class="comment" icon="fa-commenting-o">
 						<commentBox v-model="comment" @handle="addComment" />
 						<div class="comment-list">
-							<h3 class="comment-title">全部评论
+							<h3 class="comment-title" id="all-comment">全部评论
 								({{notEmpty(commentList)?commentList.length:0}})</h3>
 							<template v-if="notEmpty(commentList)">
 								<div class="comment-item" v-for="i in commentList" :key="i.id">
@@ -162,7 +175,7 @@ import {
 	addViews
 } from '@/api'
 import * as type from '@/store/mutation_types'
-import { notEmpty, handleMsg, file_url, copy } from '@/utils'
+import { notEmpty, handleMsg, file_url, copy, anchor } from '@/utils'
 export default {
 	props: ['id'],
 	data() {
@@ -198,6 +211,7 @@ export default {
 		...mapMutations('post', [type.SET_CURRENT_POST]),
 		notEmpty,
 		file_url,
+		anchor,
 		setCurrent(i) {
 			// console.log(i)
 			this.current = i
@@ -287,8 +301,6 @@ export default {
 			const { success, message } = await notesLike({ id: this.currentPost.id })
 			handleMsg(success, message, () => {
 				this.updateArticle()
-				// const { data } = await getById(API.NOTE, { id: this.currentPost.id })
-				// this[type.SET_CURRENT_POST](data)
 			})
 			this.isLike = success
 		},
@@ -301,41 +313,30 @@ export default {
 					userId: this.userId
 				})
 				handleMsg(success, message, () => {
-					this.fetchStarNoteList()
+					this.handleStarArticle()
 				})
 			} else {
 				const { success, message } = await deleteOne(API.FOCUSON, {
 					id: this.starInfo.key
 				})
 				handleMsg(success, message, () => {
-					this.fetchStarNoteList()
+					this.handleStarArticle()
 				})
 			}
 		},
-		async fetchStarNoteList() {
-			// todo star article
-			const { data } = await starNoteList({ id: this.userId, type: 1 })
-			const payload = data.map((i) => {
-				const pwd = Object.entries(i)
-				const [key, value] = pwd[0]
-				const author = this.getUserById(i.id)
-				console.log({ ...value, key, author })
-				return { ...value, key, author }
-			})
-			this.starInfo = payload.find((i) => i.id === this.id)
-			this.isStar = payload.findIndex((i) => i.id === this.id) !== -1
+		handleStarArticle() {
+			const { flag, res } = this[type.FILTER_RECORD](this.id, this.userId, 1)
+			this.starInfo = res
+			this.isStar = flag
 		},
-		async fetchStarUserList() {
-			const { data } = await starUserList({ id: this.userId })
-			console.log(`data`, data)
-			const payload = data.map((i) => {
-				const pwd = Object.entries(i)
-				const [key, value] = pwd[0]
-				return { key, ...value }
-			})
-			this.focusInfo = payload.find((i) => i.id === this.currentPost.userId)
-			this.isFocus =
-				payload.findIndex((i) => i.id === this.currentPost.userId) !== -1
+		handleStarUser() {
+			const { flag, res } = this[type.FILTER_RECORD](
+				this.currentAuthor.id,
+				this.userId,
+				0
+			)
+			this.focusInfo = res
+			this.isFocus = flag
 		},
 		async focusUser() {
 			if (this.isFocus) {
@@ -343,7 +344,7 @@ export default {
 					id: this.focusInfo.key
 				})
 				handleMsg(success, message, () => {
-					this.fetchStarUserList()
+					this.handleStarUser()
 				})
 			} else {
 				if (this.currentPost.userId === this.userId) {
@@ -356,7 +357,7 @@ export default {
 					userId: this.userId
 				})
 				handleMsg(success, message, () => {
-					this.fetchStarUserList()
+					this.handleStarUser()
 				})
 			}
 		},
@@ -364,10 +365,6 @@ export default {
 			const { data } = await getAllList(API.NOTE)
 			this.notes = data
 		},
-		// randNotes(len = 8) {
-		// 	const notes = this.notes.filter((i) => i.id !== this.id)
-		// 	return notes.slice(0, len).sort(() => 0.5 - Math.random())
-		// },
 		gotoDetail(i) {
 			this[type.SET_CURRENT_POST](i)
 			this.$router.push({ name: 'pArticle', params: { id: i.id } })
@@ -397,17 +394,25 @@ export default {
 		async updateArticle() {
 			const { data } = await getById(API.NOTE, { id: this.currentPost.id })
 			this[type.SET_CURRENT_POST](data)
+		},
+		goto() {
+			this[type.SET_CURRENT_POST](this.currentPost)
+			this.$router.push({
+				name: 'pPayDetail',
+				query: { id: this.currentPost.id }
+			})
 		}
 	},
 	computed: {
-		...mapGetters([
-			'currentPost',
-			'userlist',
-			'currentUser',
-			'types',
-			'userId',
-			`user/${type.GET_USER}`
-		]),
+		...mapGetters({
+			currentPost: 'currentPost',
+			userlist: 'userlist',
+			currentUser: 'currentUser',
+			types: 'types',
+			userId: 'userId',
+			[`user/${type.GET_USER}`]: `user/${type.GET_USER}`,
+			[type.FILTER_RECORD]: `post/${type.FILTER_RECORD}`
+		}),
 		currentAuthor() {
 			return this.getUserById(this.currentPost.userId)
 		},
@@ -418,21 +423,28 @@ export default {
 			const notes = this.notes.filter((i) => i.id !== this.id)
 			return notes.slice(0, 8).sort(() => 0.5 - Math.random())
 		},
-		// isPermission() {
-		// 	return
-		// }
+		isPermission() {
+			return (
+				this.currentPost.type !== 1 ||
+				this[type.FILTER_RECORD](this.id, this.userId, 2).flag ||
+				this.currentPost.userId === this.userId
+			)
+		}
 	},
 
 	async mounted() {
-		await this[[type.FETCH_RECORD]]()
 		window.addEventListener('scroll', this.handleScroll)
-		this.genarateTOC()
+		await this[[type.FETCH_RECORD]]()
 		await this[type.FETCH_USER]()
-		this.fetchReply()
+		this.isPermission && this.genarateTOC()
 		this[type.FETCH_TYPE]()
+		// comment
+		this.fetchReply()
 		this.fetchComment()
-		this.fetchStarNoteList()
-		this.fetchStarUserList()
+		// star
+		this.handleStarArticle()
+		this.handleStarUser()
+		// randNotes
 		this.fetchNotes()
 	},
 	destroyed() {
@@ -457,7 +469,7 @@ export default {
 			.top-info {
 				display: flex;
 				align-items: center;
-
+				padding: 0 0 20px;
 				.img-box {
 					width: 50px;
 					height: 50px;
@@ -472,7 +484,6 @@ export default {
 					display: flex;
 					height: 60px;
 					width: 100%;
-					flex-direction: column; /* background-color: #fff; */
 					justify-content: space-between;
 					.author-info {
 						display: flex;
@@ -537,52 +548,7 @@ export default {
 					}
 				}
 			}
-			.tools {
-				padding: 1rem 0;
-				display: flex;
-				justify-content: center;
-				.fa {
-					cursor: pointer;
-					display: flex;
-					align-items: center;
-					justify-content: center;
-					font-size: 26px;
-					padding: 0.5rem;
-					/* border: 1px solid #f0f0f0; */
-					margin-right: 1rem;
-					border-radius: 4px;
-					&.fa-thumbs-o-up {
-						color: $main-blue;
-						border-color: $main-blue;
-						&.like {
-							border-color: transparent;
-							background-color: $main-blue;
-							color: $main-white;
-						}
-					}
-					&.fa-heart {
-						color: $main-red;
-						border-color: $main-red;
-						&.star {
-							border-color: transparent;
-							background-color: $main-red;
-							color: $main-white;
-						}
-					}
-					&.fa-share-alt {
-						color: $main-green;
-						border-color: $main-green;
-					}
-					&:last-child {
-						margin-right: 0;
-					}
-					&:hover {
-						/* border-color: ; */
-						opacity: 0.7;
-					}
-					/* border-radius: 50%; */
-				}
-			}
+
 			.note {
 				font-size: 0.875rem;
 
@@ -790,6 +756,92 @@ export default {
 						}
 					}
 				}
+			}
+		}
+	}
+
+	.article-lock {
+		width: 100%;
+		height: 400px;
+		background-color: #0001;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		flex-direction: column;
+		i {
+			font-size: 60px;
+			color: $main-red-dark;
+		}
+		div {
+			font-size: 24px;
+			color: $main-red;
+			margin: 20px 0;
+		}
+		a {
+			display: inline-block;
+			padding: 6px 12px;
+			border-radius: 6px;
+			background-color: $main-green;
+			color: $main-white;
+		}
+	}
+	.tools {
+		position: fixed;
+		top: 80px;
+		left: 50%;
+		padding: 20px 10px;
+		transform: translateX(-680px);
+		display: flex;
+		justify-content: center;
+		flex-direction: column;
+		background-color: #fff;
+		border-radius: 4px;
+		.fa {
+			margin-bottom: 10px;
+			cursor: pointer;
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			font-size: 26px;
+			padding: 0.5rem;
+			border-radius: 4px;
+			transition: transform 0.1s linear;
+			&:hover {
+				transform: scale(1.2);
+			}
+			&:last-child {
+				margin-bottom: 0;
+			}
+			&::before {
+				margin-right: 0;
+			}
+			&.fa-thumbs-o-up {
+				color: $main-blue;
+				border-color: $main-blue;
+				&.like {
+					border-color: transparent;
+					background-color: rgba($color: $main-blue, $alpha: 0.8);
+					color: $main-white;
+				}
+			}
+			&.fa-heart {
+				color: $main-red;
+				border-color: $main-red;
+				&.star {
+					border-color: transparent;
+					background-color: rgba($color: $main-red, $alpha: 0.8);
+					color: $main-white;
+				}
+			}
+			&.fa-share-alt {
+				color: $main-green;
+				border-color: $main-green;
+			}
+			&:last-child {
+				margin-right: 0;
+			}
+			&:hover {
+				opacity: 0.7;
 			}
 		}
 	}
