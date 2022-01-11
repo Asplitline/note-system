@@ -2,7 +2,14 @@
 	<el-card class="category">
 		<TableHeader @add="handleAdd" v-model="query.keyword" @search="getList"
 			@clear="getList" />
-		<el-table v-loading="listLoading" :data="fliterList" element-loading-text="Loading"
+		<el-alert title="图标来源" type="info"
+			description="举例：fa fa-bookmark-o，只需在 _分类图标_ 填入 fa-bookmark-o" show-icon>
+			<template #title>
+				图标来源<a href="http://www.fontawesome.com.cn/faicons/" target="_blank"
+					class="link">前往</a>
+			</template>
+		</el-alert>
+		<el-table v-loading=" listLoading" :data="fliterList" element-loading-text="Loading"
 			border style="width: 100%" row-key="id" border
 			:tree-props="{children: 'children', hasChildren: 'hasChildren'}">
 			<el-table-column align="center" label="分类名称" min-width="95">
@@ -206,5 +213,10 @@ export default {
 <style lang="scss" scoped>
 .category {
 	/* background-color: #000; */
+	.link {
+		color: $main-blue;
+		margin-left: 10px;
+		font-size: 16px;
+	}
 }
 </style>	

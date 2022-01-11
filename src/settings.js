@@ -1,6 +1,6 @@
 module.exports = {
 
-  title: 'Note System',
+  title: 'Cloth System',
 
   /**
    * @type {boolean} true | false

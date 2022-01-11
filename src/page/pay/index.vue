@@ -1,7 +1,7 @@
 <template>
 	<div class="pay">
 		<div class="w pay-box">
-			<h3>付费</h3>
+			<h3>付费专区</h3>
 			<ul class="pay-list">
 				<li class="pay-item" v-for="i in list" :key="i.id">
 					<div class="pay-item-box">
@@ -79,17 +79,23 @@ export default {
 	.pay-list {
 		display: flex;
 		flex-wrap: wrap;
-		padding: 1rem 0;
+		/* padding: 1rem 0; */
 		width: 100%;
 
+		background: #fff;
+		padding: 20px 10px;
+		border-radius: 20px;
+		margin-top: 20px;
+		box-shadow: 1px 0px 2px 1px #0c0c0c38;
 		.pay-item {
 			overflow: hidden;
 			width: 24%;
 			padding: 0 0.5%;
 			.pay-item-box {
+				border: 1px solid #ededed;
 				background-color: #fff;
 				margin-bottom: 1rem;
-				border-radius: 0.625rem;
+				border-radius: 6px;
 				overflow: hidden;
 				.img-box {
 					width: 100%;
@@ -126,7 +132,7 @@ export default {
 						padding: 8px 0;
 						color: #666;
 						height: 17px;
-						font-size: 12px;
+						font-size: 14px;
 						span {
 							margin-bottom: 6px;
 						}

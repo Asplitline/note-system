@@ -95,12 +95,6 @@ export const constantRoutes = [
         component: () => import('@/views/content/tag'),
         meta: { title: '标签列表', icon: 'dashboard', actvieMenu: '/content/tag' }
       },
-      // {
-      //   path: 'file',
-      //   name: 'File',
-      //   component: () => import('@/views/content/file'),
-      //   meta: { title: '文件列表', icon: 'dashboard', actvieMenu: '/content/file' }
-      // },
 
     ]
   },
@@ -152,12 +146,6 @@ export const constantRoutes = [
         component: () => import('@/views/setting/log'),
         meta: { title: '系统日志', icon: 'dashboard', actvieMenu: '/setting/log' }
       },
-      // {
-      //   path: 'oss',
-      //   name: 'Oss',
-      //   component: () => import('@/views/setting/oss'),
-      //   meta: { title: '阿里云OSS', icon: 'dashboard', actvieMenu: '/setting/oss' }
-      // },
     ]
   },
   {
@@ -178,7 +166,7 @@ export const constantRoutes = [
         name: 'pPay',
         component: () => import('@/page/pay'),
         show: true,
-        meta: { title: '付费', icon: 'fa-paypal', actvieMenu: '/page/pay', page: true }
+        meta: { title: '付费', icon: 'fa-gift', actvieMenu: '/page/pay', page: true }
       },
       {
         path: 'pay/:id',

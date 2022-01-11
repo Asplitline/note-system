@@ -65,11 +65,13 @@ export default {
 		},
 		async getList() {
 			const { data } = await starNoteList({ id: this.id, type: 2 })
-			this.list = data.map((i) => {
-				const pwd = Object.entries(i)
-				const [key, value] = pwd[0]
-				return { ...value, key }
-			})
+			this.list = data
+				.map((i) => {
+					const pwd = Object.entries(i)
+					const [key, value] = pwd[0]
+					return { ...value, key }
+				})
+				.filter((i) => i.userId !== this.id)
 		},
 		gotoDetail(i) {
 			this[types.SET_CURRENT_POST](i)

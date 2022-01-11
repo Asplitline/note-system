@@ -131,10 +131,12 @@ export default {
 		},
 		async fetchTags() {
 			const { data } = await getOther(API_OTHER.STATISTICAL_TAGS)
-			this.tags = data.map((i) => {
-				console.log(i[i.tag_id])
-				return { name: i[i.tag_id], value: i.count }
-			})
+			this.tags = data
+				.map((i) => {
+					console.log(i[i.tag_id])
+					return { name: i[i.tag_id], value: i.count }
+				})
+				.filter((i) => i.name)
 		}
 	},
 	mounted() {

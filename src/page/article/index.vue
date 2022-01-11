@@ -317,31 +317,35 @@ export default {
 				})
 			} else {
 				const { success, message } = await deleteOne(API.FOCUSON, {
-					id: this.starInfo.key
+					id: this.starInfo.id
 				})
 				handleMsg(success, message, () => {
 					this.handleStarArticle()
 				})
 			}
 		},
-		handleStarArticle() {
+		async handleStarArticle() {
+			await this[[type.FETCH_RECORD]]()
+
 			const { flag, res } = this[type.FILTER_RECORD](this.id, this.userId, 1)
-			this.starInfo = res
+			this.starInfo = res?.[0]
 			this.isStar = flag
 		},
-		handleStarUser() {
+		async handleStarUser() {
+			await this[[type.FETCH_RECORD]]()
+
 			const { flag, res } = this[type.FILTER_RECORD](
 				this.currentAuthor.id,
 				this.userId,
 				0
 			)
-			this.focusInfo = res
+			this.focusInfo = res?.[0]
 			this.isFocus = flag
 		},
 		async focusUser() {
 			if (this.isFocus) {
 				const { success, message } = await deleteOne(API.FOCUSON, {
-					id: this.focusInfo.key
+					id: this.focusInfo.id
 				})
 				handleMsg(success, message, () => {
 					this.handleStarUser()
@@ -485,6 +489,7 @@ export default {
 					height: 60px;
 					width: 100%;
 					justify-content: space-between;
+					flex-direction: column;
 					.author-info {
 						display: flex;
 						align-items: center;
