@@ -20,7 +20,7 @@
 import Asider from '@/page/components/asider.vue'
 import { API, getPageList } from '@/api'
 import { aMixin } from '@/mixin'
-import { mapMutations } from 'vuex'
+import { mapActions, mapGetters, mapMutations } from 'vuex'
 import { notEmpty } from '@/utils'
 import * as type from '@/store/mutation_types'
 import postList from '@/page/components/postList.vue'
@@ -36,20 +36,27 @@ export default {
 		postList
 	},
 	mounted() {
+		this[type.FETCH_USER]()
 		this.getList()
 	},
-
+	computed: {
+		...mapGetters('user', [type.GET_USER])
+	},
 	methods: {
 		notEmpty,
 		...mapMutations('post', [type.SET_CURRENT_POST]),
+		...mapActions('user', [type.FETCH_USER]),
 		async getList() {
 			const { total, list } = await getPageList(API.NOTE, {
 				...this.query,
 				type: 2
 			})
 			this.total = total
-			this.list = list
-			console.log(this.list)
+			this.list = list.map((i) => {
+				const user = this[type.GET_USER](i.userId)
+				console.log(user)
+				return { ...i, user }
+			})
 		},
 		gotoDetail(i) {
 			this[type.SET_CURRENT_POST](i)

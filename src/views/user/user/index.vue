@@ -26,16 +26,26 @@
 					<div>{{row.phone}}</div>
 				</template>
 			</el-table-column>
-			<el-table-column align="center" label="状态" min-width="95">
+			<!-- <el-table-column align="center" label="状态" min-width="95">
 				<template v-slot={row}>
 					<el-switch v-model="row.state" active-text="管理员" inactive-text="普通"
 						:active-value="1" :inactive-value="0" @change="modifyState($event,row)">
 					</el-switch>
 				</template>
-			</el-table-column>
+			</el-table-column> -->
 			<el-table-column align="center" label="注册时间" min-width="95">
 				<template v-slot={row}>
 					{{row.createTime | formatDate}}
+				</template>
+			</el-table-column>
+			<el-table-column align="center" label="身份" min-width="95">
+				<template v-slot={row}>
+					<el-radio-group v-model="row.state" size="mini"
+						@change="handleChange($event,row)">
+						<el-radio-button :label="i.id" v-for="i in USER_STATE" :key="i.id">
+							{{i.text}}
+						</el-radio-button>
+					</el-radio-group>
 				</template>
 			</el-table-column>
 			<el-table-column align="center" class-name="t-btns" label="操作" min-width="95">
@@ -122,7 +132,7 @@ import {
 	changePassword,
 	editUser
 } from '@/api'
-import { UPLOAD_URL } from '@/utils/global'
+import { UPLOAD_URL, USER_STATE } from '@/utils/global'
 import { hashID, deepClone, validateEmail, validatePhone } from '@/utils'
 import { aMixin } from '@/mixin'
 
@@ -153,6 +163,7 @@ export default {
 			}
 		}
 		return {
+			USER_STATE,
 			key: '',
 			list: [],
 			listLoading: false,
@@ -165,7 +176,8 @@ export default {
 				phone: [{ required: true, validator: validPhone, trigger: 'blur' }],
 				age: [{ trigger: 'blur', validator: validAge }]
 			},
-			isEdit: false
+			isEdit: false,
+			radio: ''
 		}
 	},
 	mixins: [aMixin],
@@ -236,6 +248,14 @@ export default {
 					success && this.getList()
 				}
 			})
+		},
+		async handleChange(evt, v) {
+			const { success, message } = await editUser({
+				...v,
+				state: evt,
+				updateTime: Date.now()
+			})
+			message && this.$message[success ? 'success' : 'error'](message)
 		},
 		async resetPassword(id) {
 			this.$confirm('此操作将密码重置为：123456, 是否继续?', '提示', {

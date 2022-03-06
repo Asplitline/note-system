@@ -17,6 +17,10 @@
 					<span class="title">{{user.userName}}</span>
 					<span class="desc">{{user.description || '这个人太懒了，没有简介'}}</span>
 				</div>
+				<div class="auth-btn" @click="apply" v-if="user.state == 0">
+					<svg-icon iconClass="auth-article"></svg-icon>
+					申请成为导师
+				</div>
 			</div>
 		</div>
 		<div class="bottom-container">
@@ -55,7 +59,7 @@ import myFollow from './myFollow'
 import { mapActions, mapGetters, mapMutations } from 'vuex'
 import { deepClone, file_url, handleMsg } from '@/utils'
 import { BASE_URL, UPLOAD_URL } from '@/utils/global'
-import { API, editUser } from '@/api'
+import { API, editUser, addApply, applyAllList } from '@/api'
 import * as types from '@/store/mutation_types'
 export default {
 	components: {
@@ -72,15 +76,18 @@ export default {
 			activeTab: 'myInfo',
 			BASE_URL,
 			user: {},
-			UPLOAD_URL
+			UPLOAD_URL,
+			currentApply: {}
 		}
 	},
 	computed: {
 		...mapGetters(['currentUser', 'userlist'])
 	},
 	mounted() {
+		// this.fetchApply()
 		this.user = deepClone(this.currentUser)
 		this[types.FETCH_USER]()
+		this.getInfo(this.user.id)
 	},
 	watch: {
 		currentUser(val) {
@@ -89,7 +96,7 @@ export default {
 	},
 	methods: {
 		...mapMutations('user', [types.SET_CRTUSER]),
-		...mapActions('user', [types.FETCH_USER]),
+		...mapActions('user', [types.FETCH_USER, 'getInfo']),
 		file_url,
 		async handleAvatarSuccess(res, file) {
 			this.$set(this.user, 'fileUrl', res)
@@ -102,7 +109,21 @@ export default {
 		updateUser(user) {
 			this[types.SET_CRTUSER](user)
 		},
-		beforeAvatarUpload() {}
+		beforeAvatarUpload() {},
+		async apply() {
+			const { success } = await addApply({
+				createTime: Date.now(),
+				status: 0,
+				updateTime: Date.now(),
+				userId: this.user.id
+			})
+			handleMsg(success, '申请已提交，等待审核', () => {})
+		}
+		// async fetchApply() {
+		// 	const { data } = await applyAllList()
+		// 	console.log(data)
+		// 	this.currentApply = data
+		// }
 	}
 }
 </script>
@@ -111,6 +132,7 @@ export default {
 .info {
 	width: 1000px;
 	margin: 0 auto;
+
 	.top-banner {
 		margin-top: 10px;
 		height: 250px;
@@ -124,6 +146,7 @@ export default {
 			background-color: #fff;
 			display: flex;
 			padding-left: 20px;
+			position: relative;
 			.img-box {
 				position: relative;
 				border-radius: 8px;
@@ -189,6 +212,22 @@ export default {
 				/* &.mask {
 				
 				} */
+			}
+			.auth-btn {
+				position: absolute;
+				top: 20px;
+				right: 20px;
+				height: 36px;
+				line-height: 36px;
+				padding: 0 10px;
+				border: 1px solid rgba($main-blue, 0.6);
+				background-color: rgba($main-blue, 0.6);
+				border-radius: 8px;
+				color: #fff;
+				cursor: pointer;
+				&:hover {
+					opacity: 0.7;
+				}
 			}
 		}
 	}

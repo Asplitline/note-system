@@ -145,7 +145,6 @@ export default {
 	watch: {},
 	mounted() {
 		this.getList()
-		console.log('this.$router :>> ', this.$router)
 	}
 }
 </script>

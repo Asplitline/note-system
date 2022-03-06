@@ -3,11 +3,13 @@ import { Message } from 'element-ui';
 import hljs from 'highlight.js';
 import 'highlight.js/styles/androidstudio.css';
 import { IMG_URL, BASE_URL } from '@/utils/global'
+import * as utils from '@/utils'
 const MyPlugins = {}
 MyPlugins.install = function (Vue, options) {
   Vue.prototype.BASE_URL = BASE_URL
   Vue.prototype.IMG_URL = IMG_URL
   Vue.prototype.$message = Message
+  Vue.prototype.$utils = utils
   Vue.filter('formatDate', (time, cFormat) => {
     const format = cFormat || '{y}-{m}-{d} {h}:{i}:{s}'
     const date = new Date(time)

@@ -113,6 +113,12 @@ export const constantRoutes = [
         meta: { title: '用户列表', icon: 'dashboard', actvieMenu: '/user/user' }
       },
       {
+        path: 'apply',
+        name: 'Apply',
+        component: () => import('@/views/user/apply'),
+        meta: { title: '申请列表', icon: 'dashboard', actvieMenu: '/user/apply' }
+      },
+      {
         path: 'comment',
         name: 'Comment',
         component: () => import('@/views/user/comment'),

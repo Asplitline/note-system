@@ -17,7 +17,8 @@
 						<el-input v-model="ruleForm.age" type="number"></el-input>
 					</el-form-item>
 					<el-form-item label="身份">
-						<el-tag :type="['','danger'][ruleForm.state]">{{['用户','管理员'][ruleForm.state]}}
+						<el-tag :type="USER_STATE_RE[ruleForm.state].type" v-if="ruleForm.state">
+							{{USER_STATE_RE[ruleForm.state].text}}
 						</el-tag>
 					</el-form-item>
 					<el-form-item label="个人简介" prop="description">
@@ -45,8 +46,10 @@ import {
 	file_url,
 	handleMsg
 } from '@/utils'
+import { USER_STATE_RE } from '@/utils/global'
 import Card from './card.vue'
 import { editUser } from '@/api'
+import { mapActions } from 'vuex'
 export default {
 	props: ['user'],
 	components: {
@@ -62,6 +65,7 @@ export default {
 	},
 	methods: {
 		file_url,
+		...mapActions(['getInfo']),
 		edit() {
 			this.$refs.ruleForm.validate(async (valid) => {
 				if (!valid) return
@@ -105,7 +109,8 @@ export default {
 				email: [{ validator: validEmail, trigger: 'blur' }],
 				phone: [{ required: true, validator: validPhone, trigger: 'blur' }],
 				age: [{ trigger: 'blur', validator: validAge }]
-			}
+			},
+			USER_STATE_RE
 		}
 	}
 }

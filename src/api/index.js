@@ -74,6 +74,13 @@ export function deleteOne (path, params) {
 /*
   user 
  */
+export function getUserById (params) {
+  return request({
+    url: `/apiUser/getById`,
+    method: 'get',
+    params
+  })
+}
 export function getUser (path, params) {
   return request({
     url: `/${path}/pageUser`,
@@ -199,6 +206,46 @@ export function starUserList (params) {
   return request({
     url: `/apiUser/findFocusId`,
     method: 'get',
+    params
+  })
+}
+
+/**
+ *  apply
+ */
+export function applyAllList () {
+  return request({
+    url: `/apiUserVip/list`,
+    method: 'get',
+  })
+}
+
+export function applyList (params) {
+  return request({
+    url: `/apiUserVip/pageList`,
+    method: 'get',
+    params
+  })
+}
+
+export function addApply (data) {
+  return request({
+    url: `/apiUserVip/insert`,
+    method: 'post',
+    data
+  })
+}
+export function editApply (data) {
+  return request({
+    url: `/apiUserVip/update`,
+    method: 'put',
+    data
+  })
+}
+export function deleteApply (params) {
+  return request({
+    url: `/apiUserVip/delete`,
+    method: 'delete',
     params
   })
 }

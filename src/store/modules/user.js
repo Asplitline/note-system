@@ -1,5 +1,5 @@
 // import { login, logout, getInfo } from '@/api/user'
-import { login, logout, API, getAllList } from '@/api'
+import { login, logout, API, getAllList, getUserById } from '@/api'
 
 import { getToken, setToken, removeToken } from '@/utils/auth'
 import { resetRouter } from '@/router'
@@ -56,6 +56,7 @@ const actions = {
           // const token = getToken()
           // debugger
           // commit('SET_TOKEN', token)
+          console.log(data)
           commit(type.SET_CRTUSER, data)
         }
         resolve({ success, message, data })
@@ -65,21 +66,14 @@ const actions = {
     })
   },
   // get user info
-  getInfo ({ commit, state }) {
-    return new Promise((resolve, reject) => {
-      getInfo(state.token).then(response => {
-        const { data } = response
-        if (!data) {
-          return reject('Verification failed, please Login again.')
-        }
-
-        const { name, avatar } = data
-        commit('SET_NAME', name)
-        commit('SET_AVATAR', avatar)
-        resolve(data)
-      }).catch(error => {
-        reject(error)
-      })
+  getInfo ({ commit, state }, id) {
+    getUserById({ id }).then(response => {
+      const { data } = response
+      const { name, avatar } = data
+      commit('SET_NAME', name)
+      commit('SET_AVATAR', avatar)
+      commit(type.SET_CRTUSER, data)
+    }).catch(error => {
     })
   },
 

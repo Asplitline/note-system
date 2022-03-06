@@ -22,6 +22,8 @@
 								<img :src="file_url(currentAuthor.fileUrl)" alt=""
 									v-if="notEmpty(currentAuthor)"
 									onerror="this.src='http://www.bianbiangou.cn/index/ICON2.png'">
+								<svg-icon iconClass="auth-article" class="auth-ico"
+									v-if="currentAuthor.state === 2"></svg-icon>
 							</div>
 							<div class="info" v-if="notEmpty(currentAuthor)">
 								<div class="author-info">
@@ -105,8 +107,13 @@
 							<template v-if="notEmpty(commentList)">
 								<div class="comment-item" v-for="i in commentList" :key="i.id">
 									<div class="header">
-										<img :src="file_url(i.author.fileUrl)" alt=""
-											onerror="this.src='http://www.bianbiangou.cn/index/ICON2.png'">
+										<div class="img-wrapper">
+											<img :src="file_url(i.author.fileUrl)" alt=""
+												onerror="this.src='http://www.bianbiangou.cn/index/ICON2.png'">
+											<svg-icon iconClass="auth-article" class="auth-ico"
+												v-if="i.author.state === 2"></svg-icon>
+
+										</div>
 										<div class="info">
 											<span class="author">{{i.author.userName}}</span><span
 												class="date fa fa-clock-o">{{i.createTime | formatDate}}</span>
@@ -124,6 +131,10 @@
 														<div class="img-box">
 															<img :src="file_url(reply.author.fileUrl)" alt=""
 																onerror="this.src='http://www.bianbiangou.cn/index/ICON2.png'">
+															<svg-icon iconClass="auth-article" class="auth-ico"
+																v-if="reply.author.state === 2">
+															</svg-icon>
+
 														</div>
 														<span class="author">{{reply.author.userName}}</span>
 														<span
@@ -475,13 +486,22 @@ export default {
 				align-items: center;
 				padding: 0 0 20px;
 				.img-box {
-					width: 50px;
-					height: 50px;
+					flex-shrink: 0;
+					width: 60px;
+					height: 60px;
 					margin-right: 10px;
+					position: relative;
+					border-radius: 50%;
 					img {
 						border-radius: 50%;
 						width: 100%;
 						height: 100%;
+					}
+					.auth-ico {
+						position: absolute;
+						bottom: -5px;
+						right: -5px;
+						font-size: 2em;
 					}
 				}
 				.info {
@@ -674,11 +694,24 @@ export default {
 						}
 						.header {
 							display: flex;
-							& > img {
+							.img-wrapper {
 								width: 3rem;
 								height: 3rem;
 								border-radius: 50%;
+								position: relative;
+								img {
+									border-radius: 50%;
+									width: 100%;
+									height: 100%;
+								}
+								.auth-ico {
+									position: absolute;
+									bottom: -4px;
+									right: -4px;
+									font-size: 1.75em;
+								}
 							}
+
 							.info {
 								@include icon_base;
 								padding-left: 0.5rem;
@@ -729,10 +762,17 @@ export default {
 											color: #666;
 											font-size: 0.875rem;
 											.img-box {
+												position: relative;
 												img {
 													border-radius: 50%;
 													width: 30px;
 													height: 30px;
+												}
+												.auth-ico {
+													position: absolute;
+													bottom: -4px;
+													right: -4px;
+													font-size: 1.25em;
 												}
 											}
 											.author {

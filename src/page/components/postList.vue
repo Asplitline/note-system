@@ -23,6 +23,11 @@
 				<div class="btns">
 					<button class="btn" @click="handleClick(i)">查看文章</button>
 				</div>
+
+				<div class="auth-flag" v-if="i.user && i.user.state == 2">
+					<svg-icon class="auth-article" iconClass="auth-article"></svg-icon>
+					<span>导师推荐</span>
+				</div>
 			</div>
 		</template>
 		<template v-else>
@@ -139,6 +144,22 @@ export default {
 					color: #fff;
 					background-color: $main-blue;
 				}
+			}
+		}
+		.auth-flag {
+			position: absolute;
+			right: 20px;
+			top: 8px;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			.auth-article {
+				font-size: 40px;
+			}
+			span {
+				margin-top: 8px;
+				font-size: 16px;
+				color: #2680f0;
 			}
 		}
 	}
