@@ -1,5 +1,5 @@
 // export const IMG_URL = 'http://120.24.30.105:8001/'
-export const IMG_URL = 'http://localhost:8088/'
+export const IMG_URL = 'http://127.0.0.1:8088/'
 export const BASE_URL = 'http://120.24.30.105:8088/'
 export const UPLOAD_URL = 'http://127.0.0.1:8088/'
 export const POST_STATE = [
