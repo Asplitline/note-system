@@ -55,19 +55,22 @@ export const constantRoutes = [
     path: '/home',
     component: Layout,
     redirect: '/home/index',
-    children: [{
-      path: 'index',
-      name: 'Home',
-      component: () => import('@/views/home'),
-      meta: { title: '首页', icon: 'el-icon-s-home', actvieMenu: '/home/index' }
-    }]
+    children: [
+      {
+        path: 'index',
+        name: 'Home',
+        component: () => import('@/views/home'),
+        meta: { title: '首页', icon: 'el-icon-s-home', actvieMenu: '/home/index' }
+      }
+    ]
   },
   {
     path: '/content',
     component: Layout,
     redirect: '/content/note',
     meta: {
-      title: '内容管理', icon: 'el-icon-s-management'
+      title: '内容管理',
+      icon: 'el-icon-s-management'
     },
     children: [
       {
@@ -81,7 +84,7 @@ export const constantRoutes = [
         path: 'noteDetail/:id?',
         name: 'NoteDetail',
         component: () => import('@/views/content/note/notePage'),
-        props: true,
+        props: true
       },
       {
         path: 'category',
@@ -94,14 +97,13 @@ export const constantRoutes = [
         name: 'Tag',
         component: () => import('@/views/content/tag'),
         meta: { title: '标签列表', icon: 'dashboard', actvieMenu: '/content/tag' }
-      },
+      }
       // {
       //   path: 'file',
       //   name: 'File',
       //   component: () => import('@/views/content/file'),
       //   meta: { title: '文件列表', icon: 'dashboard', actvieMenu: '/content/file' }
       // },
-
     ]
   },
   {
@@ -109,7 +111,8 @@ export const constantRoutes = [
     component: Layout,
     redirect: '/user/user',
     meta: {
-      title: '用户管理', icon: 'el-icon-s-management'
+      title: '用户管理',
+      icon: 'el-icon-s-management'
     },
     children: [
       {
@@ -129,7 +132,7 @@ export const constantRoutes = [
         name: 'Reply',
         component: () => import('@/views/user/reply'),
         meta: { title: '回复管理', icon: 'dashboard', actvieMenu: '/user/reply' }
-      },
+      }
     ]
   },
   {
@@ -137,7 +140,8 @@ export const constantRoutes = [
     component: Layout,
     redirect: '/setting/config',
     meta: {
-      title: '系统管理', icon: 'el-icon-s-management'
+      title: '系统管理',
+      icon: 'el-icon-s-management'
     },
     children: [
       {
@@ -151,7 +155,7 @@ export const constantRoutes = [
         name: 'Log',
         component: () => import('@/views/setting/log'),
         meta: { title: '系统日志', icon: 'dashboard', actvieMenu: '/setting/log' }
-      },
+      }
       // {
       //   path: 'oss',
       //   name: 'Oss',
@@ -226,36 +230,36 @@ export const constantRoutes = [
         props: true,
         component: () => import('@/page/search'),
         meta: { page: true }
-      },
-    ],
+      }
+    ]
   },
   // 404 page must be placed at the end !!!
   { path: '/test', component: () => import('@/views/test') },
   { path: '*', redirect: '/404', hidden: true }
 ]
 
-const createRouter = () => new Router({
-  // mode: 'history', // require service support
-  scrollBehavior: () => ({ y: 0 }),
-  routes: constantRoutes
-})
+const createRouter = () =>
+  new Router({
+    // mode: 'history', // require service support
+    scrollBehavior: () => ({ y: 0 }),
+    routes: constantRoutes
+  })
 
 const router = createRouter()
 
 // Detail see: https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465
-export function resetRouter () {
+export function resetRouter() {
   const newRouter = createRouter()
   router.matcher = newRouter.matcher // reset router
 }
 
 export default router
 
-
-
-function averageNum (arr) {
+function averageNum(arr) {
   const len = arr.length
   if (len === 0) return 0
-  let sum = 0, oddLen = 0;
+  let sum = 0
+  let oddLen = 0
   for (let i = 0; i < arr.length; i++) {
     if (arr[i] % 2 === 1) {
       sum += arr[i]

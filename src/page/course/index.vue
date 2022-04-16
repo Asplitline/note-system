@@ -1,16 +1,15 @@
 <template>
-	<div class="pay">
-		course
-	</div>
+  <div class="pay">
+    course
+  </div>
 </template>
 
 <script>
 export default {
-	data() {
-		return {}
-	}
+  data() {
+    return {}
+  }
 }
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

@@ -18,9 +18,9 @@ router.beforeEach(async (to, from, next) => {
   const user = store.getters.currentUser
   const isAuth = user.state === 1
   if (notEmpty(user)) {
-    console.log(user);
-    console.log('to :>> ', to);
-    console.log('from :>> ', from);
+    console.log(user)
+    console.log('to :>> ', to)
+    console.log('from :>> ', from)
     // if (user.state === 1) next()
     // else {
     //   if (from.name === 'pIndex') next()
@@ -77,7 +77,7 @@ router.beforeEach(async (to, from, next) => {
   //     } else {
   //       try {
   //         // get user info
-  //         // await store.dispatch('user/getInfo')  
+  //         // await store.dispatch('user/getInfo')
   //         next()
   //       } catch (error) {
   //         // remove token and go to login page to re-login

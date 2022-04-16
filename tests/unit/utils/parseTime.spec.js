@@ -6,7 +6,7 @@ describe('Utils:parseTime', () => {
     expect(parseTime(d)).toBe('2018-07-13 17:54:01')
   })
   it('timestamp string', () => {
-    expect(parseTime((d + ''))).toBe('2018-07-13 17:54:01')
+    expect(parseTime(d + '')).toBe('2018-07-13 17:54:01')
   })
   it('ten digits timestamp', () => {
     expect(parseTime((d / 1000).toFixed(0))).toBe('2018-07-13 17:54:01')

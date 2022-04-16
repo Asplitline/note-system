@@ -1,19 +1,19 @@
 <template>
-	<div class="footer">
-		footer
-	</div>
+  <div class="footer">
+    footer
+  </div>
 </template>
 
 <script>
 export default {
-	data() {
-		return {}
-	}
+  data() {
+    return {}
+  }
 }
 </script>
 
 <style lang="scss" scoped>
 .footer {
-	border: 1px solid #000;
+  border: 1px solid #000;
 }
 </style>

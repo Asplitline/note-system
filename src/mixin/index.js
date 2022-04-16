@@ -1,5 +1,5 @@
 export const aMixin = {
-  data () {
+  data() {
     return {
       query: {
         size: 10,
@@ -10,23 +10,23 @@ export const aMixin = {
     }
   },
   methods: {
-    handleSizeChange (e) {
+    handleSizeChange(e) {
       console.log(e)
     },
-    handleCurrentChange (e, callback) {
+    handleCurrentChange(e, callback) {
       // console.log(e)
       this.query.page = e
       callback && callback()
     },
-    test (val) {
-      console.log('val :>> ', val);
+    test(val) {
+      console.log('val :>> ', val)
     },
-    back () {
-      // return 
-      console.log(window.history);
+    back() {
+      // return
+      console.log(window.history)
       return window.history.length > 1 ? this.$router.go(-1) : this.$router.replace('/')
     },
-    _url (path) {
+    _url(path) {
       return this.IMG_URL + path
     }
   }

@@ -5,7 +5,7 @@ import 'normalize.css/normalize.css' // A modern alternative to CSS resets
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
 import locale from 'element-ui/lib/locale/lang/en' // lang i18n
-import 'font-awesome/css/font-awesome.css';
+import 'font-awesome/css/font-awesome.css'
 import '@/styles/index.scss' // global css
 
 import App from './App'
@@ -14,13 +14,13 @@ import router from './router'
 
 import '@/icons' // icon
 import '@/permission' // permission control
-import TableHeader from '@/components/TableHeader';
-import myEmpty from '@/page/components/myEmpty';
+import TableHeader from '@/components/TableHeader'
+import myEmpty from '@/page/components/myEmpty'
 // import Icon from '@/components/Icon';
 Vue.component('TableHeader', TableHeader)
 Vue.component('myEmpty', myEmpty)
 
-import MyPlugins from '@/plugin';
+import MyPlugins from '@/plugin'
 Vue.use(MyPlugins)
 // Vue.component('Icon', Icon)
 /**
@@ -47,5 +47,5 @@ new Vue({
   el: '#app',
   router,
   store,
-  render: h => h(App)
+  render: (h) => h(App)
 })

@@ -1,8 +1,8 @@
-@import "./variables.scss";
-@import "./mixin.scss";
-@import "./transition.scss";
-@import "./element-ui.scss";
-@import "./sidebar.scss";
+@import './variables.scss';
+@import './mixin.scss';
+@import './transition.scss';
+@import './element-ui.scss';
+@import './sidebar.scss';
 
 body {
   height: 100%;
@@ -58,7 +58,7 @@ div:focus {
     visibility: hidden;
     display: block;
     font-size: 0;
-    content: " ";
+    content: ' ';
     clear: both;
     height: 0;
   }
@@ -178,7 +178,7 @@ div:focus {
 
 // todo loop
 .ribbon {
-  content: "";
+  content: '';
   padding: 0 1.5rem;
   height: 1.5rem;
   text-align: center;
@@ -198,7 +198,7 @@ div:focus {
     position: absolute;
     bottom: -1.2rem;
     left: 0;
-    content: "";
+    content: '';
     border: solid transparent;
     border-width: 0 1.2rem 1.2rem 0;
     border-right-color: inherit;
@@ -225,7 +225,7 @@ div:focus {
   display: none;
 }
 
-[class*="fa-"] {
+[class*='fa-'] {
   &::before {
     margin-right: 0.15rem;
   }

@@ -1,14 +1,13 @@
 import { Message } from 'element-ui'
 import { IMG_URL, BASE_URL } from '@/utils/global'
 
-
 /**
  * Parse the time to string
  * @param {(Object|string|number)} time
  * @param {string} cFormat
  * @returns {string | null}
  */
-export function parseTime (time, cFormat) {
+export function parseTime(time, cFormat) {
   if (arguments.length === 0 || !time) {
     return null
   }
@@ -17,8 +16,8 @@ export function parseTime (time, cFormat) {
   if (typeof time === 'object') {
     date = time
   } else {
-    if ((typeof time === 'string')) {
-      if ((/^[0-9]+$/.test(time))) {
+    if (typeof time === 'string') {
+      if (/^[0-9]+$/.test(time)) {
         // support "1548221490638"
         time = parseInt(time)
       } else {
@@ -28,7 +27,7 @@ export function parseTime (time, cFormat) {
       }
     }
 
-    if ((typeof time === 'number') && (time.toString().length === 10)) {
+    if (typeof time === 'number' && time.toString().length === 10) {
       time = time * 1000
     }
     date = new Date(time)
@@ -45,7 +44,9 @@ export function parseTime (time, cFormat) {
   const time_str = format.replace(/{([ymdhisa])+}/g, (result, key) => {
     const value = formatObj[key]
     // Note: getDay() returns 0 on Sunday
-    if (key === 'a') { return ['日', '一', '二', '三', '四', '五', '六'][value] }
+    if (key === 'a') {
+      return ['日', '一', '二', '三', '四', '五', '六'][value]
+    }
     return value.toString().padStart(2, '0')
   })
   return time_str
@@ -56,7 +57,7 @@ export function parseTime (time, cFormat) {
  * @param {string} option
  * @returns {string}
  */
-export function formatTime (time, option) {
+export function formatTime(time, option) {
   if (('' + time).length === 10) {
     time = parseInt(time) * 1000
   } else {
@@ -80,17 +81,7 @@ export function formatTime (time, option) {
   if (option) {
     return parseTime(time, option)
   } else {
-    return (
-      d.getMonth() +
-      1 +
-      '月' +
-      d.getDate() +
-      '日' +
-      d.getHours() +
-      '时' +
-      d.getMinutes() +
-      '分'
-    )
+    return d.getMonth() + 1 + '月' + d.getDate() + '日' + d.getHours() + '时' + d.getMinutes() + '分'
   }
 }
 
@@ -98,14 +89,14 @@ export function formatTime (time, option) {
  * @param {string} url
  * @returns {Object}
  */
-export function param2Obj (url) {
+export function param2Obj(url) {
   const search = decodeURIComponent(url.split('?')[1]).replace(/\+/g, ' ')
   if (!search) {
     return {}
   }
   const obj = {}
   const searchArr = search.split('&')
-  searchArr.forEach(v => {
+  searchArr.forEach((v) => {
     const index = v.indexOf('=')
     if (index !== -1) {
       const name = v.substring(0, index)
@@ -116,11 +107,11 @@ export function param2Obj (url) {
   return obj
 }
 /**
- * 
- * @param {object} obj 
+ *
+ * @param {object} obj
  * @returns {string}
  */
-export function obj2Params (obj) {
+export function obj2Params(obj) {
   let arr = []
   for (const key in obj) {
     if (Object.hasOwnProperty.call(obj, key)) {
@@ -130,19 +121,19 @@ export function obj2Params (obj) {
   return arr.length ? '?' + arr.join('&') : ''
 }
 /**
- * @param {number} length 
+ * @param {number} length
  * @returns {string}
  */
 
-export function hashID (length = 32) {
+export function hashID(length = 32) {
   return Array.from({ length }, () => Math.floor(Math.random() * 36).toString(36)).join('')
 }
 /**
- * 
- * @param { any } source 
+ *
+ * @param { any } source
  * @returns any
  */
-export function deepClone (source) {
+export function deepClone(source) {
   // const type = Object.prototype.toString.call(source).slice(8, -1).toLocaleLowerCase()
   if (typeof source !== 'object' || source == null) return source
   let res
@@ -160,50 +151,57 @@ export function deepClone (source) {
   return res
 }
 
-export function validatePhone (val) {
+export function validatePhone(val) {
   return /^(0|86|17951)?(13[0-9]|15[012356789]|166|17[3678]|18[0-9]|14[57])[0-9]{8}$/.test(val)
 }
 
-export function validateEmail (val) {
+export function validateEmail(val) {
   return /\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/.test(val)
 }
 
-export function setVal (key, value) {
+export function setVal(key, value) {
   localStorage.setItem(key, JSON.stringify(value))
 }
 
-export function getVal (key) {
+export function getVal(key) {
   const val = localStorage.getItem(key)
   return notEmpty(val) && JSON.parse(val)
 }
 
-export function removeVal (key) {
+export function removeVal(key) {
   localStorage.removeItem(key)
 }
 
-export function setVals (key, value) {
+export function setVals(key, value) {
   sessionStorage.setItem(key, JSON.stringify(value))
 }
 
-export function getVals (key) {
+export function getVals(key) {
   // debugger
   const val = sessionStorage.getItem(key)
   return notEmpty(val) && JSON.parse(val)
 }
 
-export function removeVals (key) {
+export function removeVals(key) {
   sessionStorage.removeItem(key)
 }
-export function getToken (key) {
-  return decodeURIComponent(document.cookie.replace(new RegExp("(?:(?:^|.*;)\\s*" + encodeURIComponent(key).replace(/[-.+*]/g, "\\$&") + "\\s*\\=\\s*([^;]*).*$)|^.*$"), "$1")) || null
+export function getToken(key) {
+  return (
+    decodeURIComponent(
+      document.cookie.replace(
+        new RegExp('(?:(?:^|.*;)\\s*' + encodeURIComponent(key).replace(/[-.+*]/g, '\\$&') + '\\s*\\=\\s*([^;]*).*$)|^.*$'),
+        '$1'
+      )
+    ) || null
+  )
 }
 
 /**
- * 
- * @param {any} val 
+ *
+ * @param {any} val
  * @returns {boolean}
  */
-export function notEmpty (val) {
+export function notEmpty(val) {
   const types = {
     STRING: 'string',
     OBJECT: 'object',
@@ -211,7 +209,10 @@ export function notEmpty (val) {
     UNDEFINED: 'undefined',
     ARRAY: 'array'
   }
-  const type = Object.prototype.toString.call(val).slice(8, -1).toLocaleLowerCase()
+  const type = Object.prototype.toString
+    .call(val)
+    .slice(8, -1)
+    .toLocaleLowerCase()
   switch (type) {
     case types.STRING:
     case types.ARRAY:
@@ -228,30 +229,30 @@ export function notEmpty (val) {
   }
 }
 
-export function handleMsg (success, message, callback) {
+export function handleMsg(success, message, callback) {
   notEmpty(message) && Message[success ? 'success' : 'error'](message)
   success && callback?.()
 }
 
-export function file_url (path) {
+export function file_url(path) {
   return IMG_URL + path
 }
 
-export function copy (text) {
-  const ipt = document.createElement('input');
-  document.body.appendChild(ipt);
-  ipt.setAttribute('value', text);
+export function copy(text) {
+  const ipt = document.createElement('input')
+  document.body.appendChild(ipt)
+  ipt.setAttribute('value', text)
   ipt.select()
-  console.log(ipt);
+  console.log(ipt)
   try {
     // 'document.execCommand' is deprecated
-    document.execCommand('copy');
+    document.execCommand('copy')
     Message({
       message: '链接复制成功~',
       center: true
     })
   } catch (error) {
-    console.log(error);
+    console.log(error)
   } finally {
     document.body.removeChild(ipt)
   }

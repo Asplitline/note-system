@@ -1,12 +1,11 @@
 <template>
-	<i :class="'fa '+icon"></i>
+  <i :class="'fa ' + icon" />
 </template>
 
 <script>
 export default {
-	props: ['icon']
+  props: ['icon']
 }
 </script>
 
-<style>
-</style>
+<style></style>

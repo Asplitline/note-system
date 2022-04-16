@@ -18,7 +18,6 @@ const getDefaultState = () => {
 
 const state = getDefaultState()
 
-
 const mutations = {
   RESET_STATE: (state) => {
     Object.assign(state, getDefaultState())
@@ -41,77 +40,85 @@ const mutations = {
   }
 }
 const getters = {
-  [type.GET_USER]: (state) => id => {
-    return state.userlist.find(i => i.id === id)
+  [type.GET_USER]: (state) => (id) => {
+    return state.userlist.find((i) => i.id === id)
   }
 }
 
 const actions = {
-  login ({ commit }, userInfo) {
+  login({ commit }, userInfo) {
     const params = obj2Params(userInfo)
     return new Promise((resolve, reject) => {
-      login(params).then(res => {
-        const { data, message, success } = res
-        if (success) {
-          // const token = getToken()
-          // debugger
-          // commit('SET_TOKEN', token)
-          commit(type.SET_CRTUSER, data)
-        }
-        resolve({ success, message, data })
-      }).catch(err => {
-        reject({ success: false, message: err })
-      })
+      login(params)
+        .then((res) => {
+          const { data, message, success } = res
+          if (success) {
+            // const token = getToken()
+            // debugger
+            // commit('SET_TOKEN', token)
+            commit(type.SET_CRTUSER, data)
+          }
+          resolve({ success, message, data })
+        })
+        .catch((err) => {
+          reject({ success: false, message: err })
+        })
     })
   },
   // get user info
-  getInfo ({ commit, state }) {
+  getInfo({ commit, state }) {
     return new Promise((resolve, reject) => {
-      getInfo(state.token).then(response => {
-        const { data } = response
-        if (!data) {
-          return reject('Verification failed, please Login again.')
-        }
+      getInfo(state.token)
+        .then((response) => {
+          const { data } = response
+          if (!data) {
+            return reject('Verification failed, please Login again.')
+          }
 
-        const { name, avatar } = data
-        commit('SET_NAME', name)
-        commit('SET_AVATAR', avatar)
-        resolve(data)
-      }).catch(error => {
-        reject(error)
-      })
+          const { name, avatar } = data
+          commit('SET_NAME', name)
+          commit('SET_AVATAR', avatar)
+          resolve(data)
+        })
+        .catch((error) => {
+          reject(error)
+        })
     })
   },
 
   // user logout
-  logout ({ commit, state }) {
+  logout({ commit, state }) {
     return new Promise((resolve, reject) => {
-      logout().then(() => {
-        removeToken() // must remove  token  first
-        resetRouter()
-        removeVal('currentUser')
-        commit('RESET_STATE')
-        resolve()
-      }).catch(error => {
-        reject(error)
-      })
+      logout()
+        .then(() => {
+          removeToken() // must remove  token  first
+          resetRouter()
+          removeVal('currentUser')
+          commit('RESET_STATE')
+          resolve()
+        })
+        .catch((error) => {
+          reject(error)
+        })
     })
   },
 
-  [type.FETCH_USER] ({ commit, state }) {
+  [type.FETCH_USER]({ commit, state }) {
     return new Promise((resolve, reject) => {
-      getAllList(API.USER).then(res => {
-        commit(type.SET_USER, res.data)
-        resolve()
-      }).catch(error => {
-        reject(error)
-      })
+      getAllList(API.USER)
+        .then((res) => {
+          commit(type.SET_USER, res.data)
+          resolve()
+        })
+        .catch((error) => {
+          reject(error)
+        })
     })
   },
 
   // remove token
-  resetToken ({ commit }) {
-    return new Promise(resolve => {
+  resetToken({ commit }) {
+    return new Promise((resolve) => {
       removeToken() // must remove  token  first
       commit('RESET_STATE')
       resolve()
